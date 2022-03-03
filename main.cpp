@@ -52,8 +52,10 @@ long long int num_paths_grid(int n, int m, m_table ** table) {
     if(table[n][m].is_set)
         return table[n][m].num_paths;
 
-    num_paths1 = num_paths_grid(n - 1, m, table);
-    num_paths2 = num_paths_grid(n, m - 1, table);
+    if(n >= 0 && m >= 0) {
+        num_paths1 = num_paths_grid(n - 1, m, table);
+        num_paths2 = num_paths_grid(n, m - 1, table);
+    }
 
     num_paths = num_paths1 + num_paths2;
     table[n][m].is_set = true;
