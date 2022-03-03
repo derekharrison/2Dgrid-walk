@@ -18,30 +18,19 @@ long long int num_paths_grid(int n, int m, t_elem*** f_table) {
     long long int num_paths2 = 0;
 
     if(n == 0 || m == 0) {
-        f_table[n][m]->is_set = true;
-        f_table[n][m]->num_paths = 0;
         return 0;
     }
-    else if((n == 1) || (m == 1)) {
-        f_table[n][m]->is_set = true;
-        f_table[n][m]->num_paths = 1;
+
+    if((n == 1) || (m == 1)) {
         return 1;
     }
-    else {
-        if(f_table[n-1][m]->is_set == true) {
-            num_paths1 = f_table[n-1][m]->num_paths;
-        }
-        else {
-            num_paths1 = num_paths_grid(n-1, m, f_table);
-        }
 
-        if(f_table[n][m-1]->is_set == true) {
-            num_paths2 = f_table[n][m-1]->num_paths;
-        }
-        else {
-            num_paths2 = num_paths_grid(n, m-1, f_table);
-        }
+    if(f_table[n][m]->is_set) {
+        return f_table[n][m]->num_paths;
     }
+
+    num_paths1 = num_paths_grid(n-1, m, f_table);
+    num_paths2 = num_paths_grid(n, m-1, f_table);
 
     num_paths = num_paths1 + num_paths2;
     f_table[n][m]->is_set = true;
