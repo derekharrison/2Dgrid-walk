@@ -7,29 +7,29 @@
 
 #include <stdio.h>
 
-typedef struct table_elements {
+typedef struct memo_table {
     bool is_set;
     long long int num_paths;
-} t_elem;
+} m_table;
 
-t_elem ** create_table(int n, int m) {
+m_table ** create_table(int n, int m) {
 
-    t_elem ** f_table = new t_elem * [n + 1];
+    m_table ** table = new m_table * [n + 1];
 
     for(int i = 0; i < n + 1; ++i)
-        f_table[i] = new t_elem[m + 1];
+        table[i] = new m_table[m + 1];
 
     for(int i = 0; i < n + 1; ++i) {
         for(int j = 0; j < m + 1; ++j) {
-            f_table[i][j].is_set = false;
-            f_table[i][j].num_paths = 0;
+            table[i][j].is_set = false;
+            table[i][j].num_paths = 0;
         }
     }
 
-    return f_table;
+    return table;
 }
 
-void delete_table(t_elem ** table, int n) {
+void delete_table(m_table ** table, int n) {
 
     for(int i = 0; i < n + 1; ++i)
         delete [] table[i];
@@ -38,7 +38,7 @@ void delete_table(t_elem ** table, int n) {
 
 }
 
-long long int num_paths_grid(int n, int m, t_elem** table) {
+long long int num_paths_grid(int n, int m, m_table ** table) {
     long long int num_paths = 0;
     long long int num_paths1 = 0;
     long long int num_paths2 = 0;
@@ -62,19 +62,19 @@ long long int num_paths_grid(int n, int m, t_elem** table) {
     return num_paths;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char * argv[]) {
 
     int n = 18;
     int m = 18;
 
     //Allocate memory for memo table
-    t_elem ** m_table = create_table(n, m);
+    m_table ** table = create_table(n, m);
 
     //Compute number of paths
-    long long int num_paths = num_paths_grid(n, m, m_table);
+    long long int num_paths = num_paths_grid(n, m, table);
 
     //Free allocated data
-    delete_table(m_table, n);
+    delete_table(table, n);
 
     //Print data
     printf("num_paths_grid: %I64d\n", num_paths);
